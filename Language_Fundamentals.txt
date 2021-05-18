@@ -188,7 +188,7 @@ void
 In Java, return type is mandatory. If a method wont return anything, then we have to declare that method with void return type.
 But in C language, return type is optional and default type return type is int.
 
-Unused Keywords (1):
+Unused Keywords (2):
 ---------------------
 goto, const
 
@@ -350,7 +350,7 @@ long l = 126000 * 60 * 60 * 24 * 1000; #miles
 ex2:
 The number of characters present in a big file may exceed int range hence the return type of length() method is long but not int.
 
-long l = f.lenght()
+long l = f.length()
 
 size: 8 bytes (64 bits)
 range: -2^63 to 2^63 - 1
@@ -1136,7 +1136,7 @@ int[] x;
 x = {10,20,30};
 CTE: Illegal start of expression
 
-length vs length()
+6. length vs length()
 ---------------------
 length is a final variable applicable for arrays. length variable represents the size of the array.
 Ex:
@@ -1153,3 +1153,1117 @@ Sopln(s.length());
 OP: 7
 
 length() is a final method applicable for String objects. length() returns number of characters present in the string
+
+length variable applicable for arrays but not for string objects whereas length() applicable for string objects but not for arrays.
+
+String[] s = {"A","AA","AAA"};
+
+Sopln(s.length);
+OP: 3
+Sopln(s.length());
+CTE: cannot find symbol
+Sopln(s[0].length);
+CTE: cannot find symbol
+Sopln(s[0].length());
+OP: 1
+
+In multidimensional arrays, length variable represents only base size but not total size
+int[][] x = new int[6][3];
+Sopln(x.length);
+OP: 6
+Sopln(x[0].length);
+OP: 3
+
+There is no direct way to find total length of multi dimensional array but indirectly, we can find as follows:
+x[0].length + x[1].length + x[2].length +.........
+7. Anonymous Arrays
+------------------------------------------------------------------
+Sometimes we can declare an array without name, such type of nameless arrays are called Anonymous arrays.
+THe main purpose of Anonymous arrays is just for instant use (one time usage).
+
+We can create Anonymous array as follows:
+new int[] {10,20,30,40};
+
+While creating Anonymous arrays, we cannot specify the size otherwise we will get CTE.
+new int[3]{10,20,30}       Invalid
+new int[]{10,20,30}        Valid
+
+
+We can create multidimensional Anonymous arrays also:
+
+new int[][]{{10,20},{30,40, 50}}
+
+Based on our requirements, we can give the name for Anonymous array, then it is no longer Anonymous.
+int[] x = new int[]{10,20,30}
+
+
+class Test{
+    public static void main(String []args){
+        sum(new int[] {10,20,30,40});
+    }
+    public static void sum(int[] x){
+        int total = 0;
+        for(int x1: x){
+            total += x1;
+        }
+        System.out.println("The sum: "+total);
+    }
+}
+
+In the above example, just to call sum method, we require an array but after completing sum method call we are not using that array any more,
+hence for this one time requirement Anonymous array is the best chouce.
+
+8. Array element assignment
+--------------------------------------
+
+int[] x = new int[5];
+x[0] = 10;
+x[1] = 'a';
+byte b = 20;
+x[2] = b;
+short s = 30;
+x[3] = s;
+x[4] = 10l;
+
+All are valid except last line:
+x[4] = 10l;
+CTE:
+error: incompatible types: possible lossy conversion from long to int
+Case 1:
+------------
+In the case of primitive type arrays, as array elements we can provide any type which can be implicitly promoted to declared type (byte, short, char, int).
+In the case of float type arrays, the allowed data types are byte, short, char, int, long, float
+
+Case 2:
+--------
+In the case of object type arrays, as array elements we can provide either declared type objects or its child class objects.
+Object[] a = new Object[10];
+a[0] = new Object();
+a[1] = new String("durga");
+a[2] = new Integer(10);
+
+Number[] n = new Number[10];
+n[0] = new Integer(10);
+n[1] = new Double(10.5);
+n[2] = new String("AAA");
+CTE:
+error: incompatible types: String cannot be converted to Number
+
+Case3:
+-------
+For interface type arrays, as array elements its implementation class objects are allowed.
+Runnable[] r = new Runnable[10];
+r[0] = new Thread();
+r[1] = new String("durga");
+CTE:
+error: incompatible types: String cannot be converted to Runnable
+
+
+
+Array Type           |       Allowed element type
+---------------------|------------------------------------------------------------------------
+primitive arrays     |       any type which can be implicitly promoted to declared types.
+object type arrays   |       either declared type or its child class objects
+abstract type arrays |       its child class objects are allowed
+interface type arrays|       implementation class objects are allowed
+
+
+9.Array variable assignments
+-------------------------------
+Case 1:
+----------
+Element level promotions are not applicable at array level. For ex: Char element can be promoted to int type whereas char array cannot be promoted to int array.
+
+int[][] x = {10,20,30,40};
+char[] ch = {'a','b','c','d'};
+int[] b = x;
+int[] c = ch;
+CTE:
+incompatible types: char[] cannot be converted to int[]
+int[] c = ch;
+
+Q. Which of the following promotions will be performed automatically?
+char to int
+char[] to int[]
+int to double
+int[] to double[]
+float to int
+float[] to int[]
+String to Object
+String[] to Object[]
+
+Ans:
+char to int
+int to double
+String to Object
+String[] to Object[]
+
+In case of Object type arrays, child class type array can be promoted to parent class type array.
+Ex:
+String[] s = {"A","B","C"};
+Object[] o = s
+The above program is valid.
+
+Case 2:
+---------
+Whenever we are assigning one array to another array, internal elements wont be copied just reference variables will be reassigned.
+int[] a = {10, 20, 30, 40, 50, 60};
+int[] b = {70, 80};
+a = b;
+b = a;
+The above program is valid.
+a will be {70, 80}
+b will be {10, 20, 30, 40, 50, 60}
+
+Case 3:
+---------
+Whenever we are assigning one array to another array, dimensions must be matched.
+For ex: in the place of 1-D int array we should provide 1-D array only. If we are trying to provide any other dimension then we will get CTE.
+
+int[][] a = new int[3][];
+a[0] = new int[4][3];
+CTE:
+error: incompatible types: int[][] cannot be converted to int[]
+a[0] = 10
+CTE:
+error: incompatible types: int cannot be converted to int[]
+
+Note:
+Whenever we are assigning one array to another array, both dimensions and types must be matched but sizes are not required to match.
+
+Ex1:
+class Test{
+    public static void main(String []args){
+
+        for(int i=0; i<=args.length; i++){
+            System.out.println(args[i]);
+        }
+
+}
+}
+
+java Test a b c
+a
+b
+c
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
+        at Test.main
+
+
+java Test a b
+
+a
+b
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
+        at Test.main
+
+java Test
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
+        at Test.main
+
+Ex2:
+class Test{
+    public static void main(String []args){
+        String[] argh = {"x","y","z"};
+        for(String s: args){
+            System.out.println(s);
+            }
+        }
+    }
+
+java Test a b c
+x
+y
+z
+
+java Test a b
+x
+y
+z
+
+
+java Test
+x
+y
+z
+
+Q.
+int[][] a = new int[4][3];
+a[0] = new int[4];
+a[1] = new int[2];
+a = new int[3][2];
+
+How many objects are created?
+How many objects eligible for Garbage Collection?
+
+Ans:
+1.
+By first line following objects are created:
+[]      []      []      []
+[][][]  [][][]  [][][]  [][][]
+In first line we have one array, so 1 object and in next line 4 new arrays, so total 5 objects
+
+Now, a[0] = new int[4];
+a[0]
+[][][][]
+also, a[1] is now:
+[]  []
+
+and a = new int[3][2];
+[]      []      []
+[][]    [][]    [][]
+
+total objects created = 5+1+1+4 = 11 objects
+7 objects are eligible for Garbage Collection
+
+
+Types of variables
+---------------------
+Division 1:
+-------------
+Based on type of value represented by a variable all variables are divided into
+two types:
+Primitive Variables
+------------------------
+Can be used to represent primitive values.
+int x = 10;
+
+Reference variables
+-----------------------
+Can be used to refer objects.
+String s = "pranjal";
+Student s = new Student();
+
+Division 2:
+--------------
+Based on the position of declaration and behaviour all variables are divided into 3 types:
+
+1. Instance Variables:
+----------------------
+If the value of a variable is varied from object to object, such type of variables are called instance variables.
+
+For every object, a separate copy of instance variables will be created.
+
+Instance variables should be declared within the class directly but outside of any method, or block or constructor.
+
+Instance variable will be created at the time of object creation and destroyed at the time of object destruction, hence the scope of instance vaiable is
+exactly same as the scope of object.
+
+Instance vaiables will be stored in the heap memory as the part of object.
+
+We cannot access instance variable directly from static area but we can access by using object reference, but we can access instance variables
+directly from instance area.
+
+
+class Test{
+    int x = 10;
+    public static void main(String[] args){
+        Sopln(x);
+        Test t = new Test();
+        Sopln(t.x);
+    }
+    public void m1(){
+        Sopln(x);
+    }
+}
+
+line 1461 will give CTE
+error: non-static variable x cannot be referenced from a static context
+If removed, OP will be:
+10
+
+For instance variables JVM will always provide default values and we are not required to perform initialization explicitly.
+
+class Test {
+    int x;
+    double d;
+    boolean b;
+    String s;
+    psvm(..){
+        Test t = new Test();
+        Sopln(t1.x);
+        Sopln(t1.d);
+        Sopln(t1.b);
+        Sopln(t1.s);
+    }
+}
+OP:
+0
+0.0
+false
+null
+
+Instance variable also known as object level variables or attributes.
+
+
+2. Static Variables:
+----------------------
+If the value of a variable is not varied from object to object, then it is not recommended to declare variable as instance variable.
+We have to declare such type of variables at class level by using static modifier.
+
+In the case of instance variables, for every object a separate copy will be created but in the case of static variables a single copy
+will be created at class level and shared by every object of the class.
+
+Static variables should be declared within the class directly and they must be outside of block, method or constructor.
+
+Static variables will be created at the time of class loading and destroyed at the time of class unloading, hence scope of static variable
+is same as scope of .class file.
+
+Whenever we execute command:
+java Test
+Following activities will happen:
+1. Start the JVM
+2. Create and start the main thread.
+3. Locate Test.class file
+4. Load Test.class file
+5. Execute main() method
+6. Unload Test.class file.
+7. Terminate main thread
+8. Shutdown JVM.
+
+At step 4, static variable creation will happen.
+At step 6, static variables destruction will happen.
+
+Static variables will be stored in method area.
+
+We can access static variable using class name or object reference, but recommended way is to access using class name.
+Within same class we can directly acces the static variable, no need to call using class name.
+
+
+class Test{
+    static int x = 10;
+    psvm(..){
+        Test t = new Test();
+        Sopln(t.x);
+        Sopln(Test.x);
+
+    }
+}
+
+We can access static variables directly from both, instance and static areas.
+
+class Test{
+    static int x = 10;
+    psvm(..){
+        Sopln(x);
+    }
+    public void m1(){
+        Sopln(x);
+    }
+}
+
+For static variables, JVM will provide default values and we are not required to perform initialization explicitly.
+class Test{
+    static int x;
+    static double d;
+    static String s;
+    psvm(..){
+        Sopln(x);
+        Sopln(d);
+        Sopln(s);
+    }
+}
+
+OP:
+0
+0.0
+null
+
+
+Static variables are also known as class level variables or fields.
+
+
+
+class Test{
+    static int x = 10;
+    int y = 20;
+    psvm(..){
+        Test t1 = new Test();
+        t1.x = 888;
+        t1.y = 999;
+        Test t2 = new Test();
+        Sopln(t2.x+"..."+t2.y);
+    }
+}
+
+At the time of class loading:
+x = 10
+t1 object created:
+so y = 20
+t1.x = 888
+t1.y = 999
+now t2 object created,
+t2.x = 888
+t2.y = 20
+
+OP:
+888...20
+
+3. Local Variables:
+----------------------
+
+Sometimes to meet the temporary requirements of programmer, we can declare variables inside a method or block or constructor, such type
+of variables are called local variables or temporary variables or stack variables (because stored in stack memory) or automatic variables.
+
+The local variable will be created while executing the block in which we declared it. Once block executions completes local variable will be destroyed.
+Hence the scope of local variable is the block in which we declared it.
+
+When thread access these local variables, each thread will have their own local variable so local variables are thread safe.
+
+class Test{
+    psvm(..){
+        int i = 0;
+        for(int j=0; j<3; j++){
+            i=i+j;
+        }
+        Sopln(i+"..."+j);
+    }
+}
+CTE:
+cannot find symbol
+
+class Test{
+    psvm(..){
+        try{
+            int j = Integer.parseInt("ten");
+        }
+        catch(NumberFormatException e){
+            j=10;
+        }
+        Sopln(j);
+    }
+}
+
+CTE:
+cannot find symbol
+
+For local variables, JVM wont provide default values. Compulsory we should perform initialization explicitly before using that variable ie if we are not using
+then its not required to perform initialization.
+
+class Test{
+    psvm(..){
+        int x;
+        Sopln("Hello");
+    }
+}
+OP: Hello
+
+class Test{
+    psvm(..){
+        int x;
+        Sopln(x);
+    }
+}
+CTE:
+variable x might not have been initialized
+
+class Test{
+    psvm(String[] args){
+        int x;
+        if args.length > 0{
+            x = 10;
+        }
+        Sopln(x);
+    }
+}
+CTE:
+variable x might not have been initialized
+
+
+class Test{
+    psvm(String[] args){
+        int x;
+        if args.length > 0{
+            x = 10;
+        }
+        else{
+            x = 20;
+        }
+        Sopln(x);
+    }
+}
+java Test a b
+OP: 10
+java Test
+OP: 20
+
+Note:
+1. It is not recommended to perform initialization for local variables inside logical blocks because there is no guarantee for the execution of these blocks
+always at run time..
+2. It is highly recommended to perform initialization  for local variables at the time of declaration atleast with the default values.
+
+
+The only applicable modifier for local variables is final. By mistake if we are trying to apply any other modifier, then we will get CTE.
+
+class Test{
+    psvm(..){
+        public int x = 30;
+        protected int x = 30;
+        private int x = 30;
+        static int x = 30;
+        transient int x = 30;
+        volatile int x = 30;
+    }
+}
+All lines will give CTE saying:
+illegal start of expression
+only valid program is:
+
+
+class Test{
+    psvm(){
+        final int x = 30;
+    }
+}
+
+
+NOTE:
+If we are not declaring a variable with any modifier then by default it is default but this rule is only applicable for instance and static variables,
+not for local variables.
+
+Conclusions:
+For instance and static variables, JVM will provide default values and we are not required to perform initialization explicitly but for local
+variables, JVM wont provide default values, compulsory we should perform initialization explicitly before using that variable.
+
+Instance and static variables can be accessed by multiple threads simultaneously and hence these are not thread safe but in case of local variables for
+every thread a separate copy will be created and hence local variables are thread safe.
+
+Types of variables      |   Is thread safe
+instance variable       | no
+static variable         | yes
+local variable          | yes
+
+
+Every variable in java should be either instance or static or local.
+Every variable in Java should be either primitive or reference.
+Hence, various possible combinations of variables in Java are:
+instance primitive
+instance reference
+static primitive
+static reference
+local primitive
+local reference
+
+
+
+class Test{
+    int x = 10;
+    static String s = "pranjal";
+    psvm(..){
+        int[] y = new int[3];
+    }
+}
+
+x is instance primitive
+s is static reference
+y is local reference
+
+Uninitialized arrays
+----------------------------
+
+Instance level
+------------------
+class Test{
+    int[] x;
+    psvm(..){
+        Test t = new Test();
+        Sopln(t.x);
+        Sopln(t.x[0]);
+    }
+}
+OP:
+null
+RE: NullPointerException
+
+
+class Test{
+    int[] x = new int[3];
+    psvm(..){
+        Test t = new Test();
+        Sopln(t.x);
+        Sopln(t.x[0]);
+    }
+}
+
+OP:
+[I@3e2qw
+0
+
+
+Static level
+------------------
+
+class Test{
+    static int[] x;
+    psvm(..){
+        Sopln(x);
+        Sopln(x[0]);
+    }
+}
+OP:
+null
+RE: NPE
+
+
+class Test{
+    static int[] x = new int[3];
+    psvm(..){
+        Sopln(x);
+        Sopln(x[0]);
+    }
+}
+OP:
+[I@3e25a2
+0
+
+Local level
+------------
+class Test{
+    psvm(..){
+        int[] x;
+        Sopln(x);
+        Sopln(x[0]);
+    }
+}
+CTE: variable x might not have been initialized
+
+
+class Test{
+    psvm(..){
+        int[] x = new int[3];
+        Sopln(x);
+        Sopln(x[0]);
+    }
+}
+OP:
+[I@32wsq2
+0
+
+
+Once we creates an array every array element by default initializes with default values irrespective of whether it is instance or static or local array.
+
+===============================================================================================
+
+7. var-arg methods
+--------------------
+Until 1.4V, we cant decalre method with variable number of arguments. If there is a change in number of arguments, compulsory we should go for
+new methods. It increases length of the code and reduces readability. To overcome this problem, Sun introduced var-arg methods in 1.5V.
+According to this, we can take variable number of arguments, such type of methods are called var-arg methods.
+
+We can declare var-arg method as follows:
+m1(int... x)
+We can call this method using any number of args including 0.
+
+m1();
+m1(10);
+m1(10,20);
+m1(10,20,30);
+
+class Test{
+    public static void m1(int... x){
+        Sopln("var arg method");
+    }
+    psvm(..){
+        m1();
+        m1(10);
+        m1(10,20);
+        m1(10,20,30);
+    }
+}
+
+OP:
+var-arg method
+var-arg method
+var-arg method
+var-arg method
+
+
+Internally var-arg parameter will be converted into 1-D array, hence within var-arg method, we can differentiate value by using index.
+
+class Test{
+    psvm(){
+        sum();
+        sum(10,20);
+        sum(10,20,30);
+        sum(10,20,30,40);
+    }
+
+
+public static void sum(int... x){
+    int total = 0;
+    for(int x1:x){
+        total+=x1;
+    }
+    Sopln("The sum is: "+total);
+}
+
+}
+
+The sum is:0
+The sum is:30
+The sum is:60
+The sum is:100
+
+Which of following are valid var-arg method declarations?
+m1(int...x)
+m1(int ...x)
+m1(int... x)
+m1(int x...)
+m1(int. ..x)
+m1(int .x..)
+
+Ans:
+Valid methods are:
+m1(int...x)
+m1(int ...x)
+m1(int... x)
+
+Case 2:
+--------
+
+We can mix var-arg parameter with normal parameter.
+m1(int x, int... y);
+m1(String s, double... y)
+
+Both of above are valid.
+
+Case 3:
+-----------
+If we mix normal parameter with var-arg parameter, then var-arg parameter should be last parameter.
+m1(double...d, char ch);        Invalid
+m1(char ch, double... d);       Valid
+
+Case 4:
+---------
+Inside var-arg method we can take only one var-arg parameter, and we cannot take more than one var-arg parameter.
+m1(int... x, double... d); this is invalid
+
+
+Case5:
+-----------
+Inside a class we cannot declare var-arg method and corresponding 1-D array method simultaneously otherwise,
+we will get CTE.
+
+class Test{
+public static void m1(int... x){
+    Sopln("int...");
+}
+public static void m1(int[] x){
+    Sopln("int[]");
+}
+
+}
+
+CTE:
+cannot declare both m1(int[]) and m1(int...) in Test
+
+Case 6:
+---------
+In general, var-arg method will get least priority. If no other method matched then only var-arg method will get chance.
+It is exactly default case inside switch.
+
+class Test{
+public static void m1(int... x){
+    Sopln("var-arg method");
+}
+public static void m1(int x){
+    Sopln("General method");
+}
+psvm(){
+    m1();
+    m1(10,20);
+    m1(10);
+}
+OP:
+var-arg method
+var-arg method
+General method
+
+Equivalence between var-arg parameter and 1-D array
+------------------------------------------------------
+Wherever 1-D array is present, we can replace with var-arg method
+m1(int[] x) => m1(int... x)
+
+Ex:
+main(String[] args) => main(String... args)
+
+Note:
+-------
+We can call this method by passsing a group of int values and x will become 1-D array.
+m1(int.. x) => int[] x
+m1(String... x) => String[] x
+
+We can call this method by passing a group of 1-D int arrays and x will become 2D int array.
+m1(int[]... x) => int[][] x
+m1(int[][]... x) => int[][][]x
+
+class Test{
+    psvm(){
+        int[] a = {10,20,30};
+        int[]b = {40,50,60};
+        m1(a, b);
+    }
+    public static void m1(int[]... x){
+        for(int[] x1: x){
+            Sopln(x1[0]);
+        }
+    }
+}
+
+OP:
+10
+40
+
+
+===============================================================================================
+
+8. main methods
+-----------------
+
+Whether class contains main method or not and whether main method is declared According to requirement or not,
+these things wont be checked by compiler. At runtime, JVM is reponsible to check these things. If JVM unable to find main method,
+then we will get RE saying: NoSuchMethodError: main
+
+
+At runtime, JVM always searches for main method with following prototype:
+public static void main(String[] args)
+
+main method is public so it can be called by JVM anywhere
+main method is static so without existing object also, JVM will be able to call this method
+main method returns void because it wont return anything to JVM
+name is main method because thats how it is configured in JVM
+String[] args - command line arguments
+
+The above syntax is very strict and if we perform any change then we will get runtime exception saying NoSuchMethodError: main
+
+Even though above syntax is very strict, following changes are acceptable:
+1. Instead of public static, we can take static public ie order of modifiers is not important.
+2. We can declare String array in any form.  main(String[] args) or main(String args[]) or main(String []args)
+3. instead of args we can use any valid java identifier like main(String[] pranjal)
+4. We can replace String[] with var args parameter.   main(String... args)
+
+
+We can declare main method with following modifiers:
+final
+synchronized
+strictfp
+Ex:
+class Test{
+    static final synchronized strictfp public void main(String... pranjal){
+        System.out.println("Pranjal");
+    }
+}
+Valid main method
+
+
+Q.Which of the following main method declarations are valid?
+public static void main(String args)
+public static void Main(String[] args)
+public void main(String[] args)
+public static int main(String[] args)
+final synchronized strictfp public void main(String[] args)
+final synchronized strictfp public static void main(String[] args)
+public static void main(String... args)
+
+Ans:
+final synchronized strictfp public static void main(String[] args)
+public static void main(String... args)
+are only valid
+
+Q. In which of the above cases we will get Compile Time Error?
+Ans: There is no case where we will get CTE but except last 2 in all cases we will get RunTimeException.
+
+Case1:
+-------
+Overloading of main method is possible but JVM will always call String[] argument main method only. The other overloaded method we have to call explicitly like
+normal method call
+class Test{
+    public static void main(String[] args){
+        System.out.println("String[]");
+    }
+    public static void main(int[] args){
+        System.out.println("int[]");
+    }
+}
+Above is overloaded method
+OP:
+String[]
+
+Case 2:
+---------
+class P{
+    public static void main(String[] args){
+        Sopln("parent main");
+    }
+}
+class C extends P {
+
+}
+
+The above program is saved as P.java
+
+javac P.java
+2 classes will be created:
+P.class C.class
+
+java P
+OP: parent main
+java C
+OP: parent main
+
+inheritance concept applicable for main method hence while executing child classes, if child doesnt contain main method then parent class main method
+will be executed.
+
+
+
+The below program is example of method hiding not method overriding.
+
+class P{
+    public static void main(String[] args){
+        Sopln("parent main");
+    }
+}
+class C extends P {
+    public static void main(String[] args){
+        Sopln("child main");
+    }
+}
+
+The above program is saved as P.java
+javac P.java
+2 classes will be created:
+P.class C.class
+
+java P
+OP: parent main
+java C
+OP: child main
+
+It seems overriding concept for above, but it is not method overriding and it is method hiding
+NOTE:
+For main method, inheritance and overloading concepts are applicable, but overriding concept is not applicable. Instead of overriding, method hiding is applicable.
+
+
+Lets suppose below class we have:
+class Test{
+
+}
+
+1.6 V                                               1.7V
+------------------------------------------------------------------------------------------------
+javac Test.java                                     javac Test.java
+above valid                                         above valid
+java Test                                           java Test
+RE: NoSuchMethodError:main                          Error:main method not found in class Test, please define main method as: public static void main(String[] args)
+
+
+
+Lets suppose below class we have:
+class Test{
+    static{
+        Sopln("Static block");
+    }
+}
+
+1.6 V                                               1.7V
+------------------------------------------------------------------------------------------------
+javac Test.java                                     javac Test.java
+above valid                                         above valid
+java Test                                           java Test
+OP:                                                 OP:
+Static block                                        Error:main method not found in class Test, please define main method as: public static void main(String[] args)
+RE: NoSuchMethodError:main
+
+
+
+Lets suppose below class we have:
+class Test{
+    static{
+        Sopln("Static block");
+        System.exit(0);
+    }
+}
+
+1.6 V                                               1.7V
+------------------------------------------------------------------------------------------------
+javac Test.java                                     javac Test.java
+above valid                                         above valid
+java Test                                           java Test
+OP:                                                 OP:
+Static block                                        Error:main method not found in class Test, please define main method as: public static void main(String[] args)
+
+
+
+
+
+Lets suppose below class we have:
+class Test{
+    static{
+        Sopln("Static block");
+    }
+    psvm(String[] args){
+        Sopln("main method");
+    }
+}
+
+1.6 V                                               1.7V
+------------------------------------------------------------------------------------------------
+javac Test.java                                     javac Test.java
+above valid                                         above valid
+java Test                                           java Test
+OP:                                                 OP:
+Static block                                        Static block
+main method                                         main method
+
+
+In 1.6V of the flow:
+Identification of static block
+Execute static block and static variable assignments
+Check for main method.
+If available, execute main method else raise RE: NoSuchMethodError: main
+
+In 1.7V of the flow:
+Check for main method.
+If available, then identification of static block and then Execute static block and static variable assignments and then execute main method.
+Else, raise Error:main method not found in class Test, please define main method as: public static void main(String[] args)
+
+Q. Without writing main method, is it possible to print some statements to the console?
+Ans: Yes by executing static block but it was applicable till 1.6V, from 1.7V onwards, it is impossible to print some statements to the console without writing main method.
+
+
+===============================================================================================
+
+9. command line arguments
+-----------------------------
+The arguments which are passing from command prompt are called command line arguments.
+With these command line arguments, JVM will create an array and by passing that array as argument, JVM will call main method:
+java Test a b c
+args[0] => a
+args[1] => b
+args[2] => c
+
+The main objective of command line arguments is we can customize behaviour of main method.
+
+Case1:
+-----
+
+class Test{
+    psvm(String[] args){
+        for(int i=0; i<=args.length; i++){
+            Sopln(args[i])
+        }
+    }
+}
+
+java A B C
+OP:
+A
+B
+C
+RE: AIOBE
+java A B
+OP:
+A
+B
+RE: AIOBE
+

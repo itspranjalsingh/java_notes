@@ -1,0 +1,1155 @@
+1. Identifiers
+2. Reserved Words
+3. Data Types
+4. Literals
+5. Arrays
+6. Type of Variables
+7. var-arg methods
+8. main methods
+9. command line arguments
+10. Java coding standards
+===============================================================================================
+
+
+1. Identifiers
+-----------------
+A name in Java program is called as identifier which can be used for identification purpose. It can be method name or variable name or class name or label name.
+Ex:
+class Test{
+    public static void main(String []args){
+        int x = 10;
+    }
+}
+
+Number of identifiers are 5 :
+Test
+main
+String (because it is name of predefined class)
+args
+x
+
+Rules for defining Java Identifiers
+--------------------------------------
+1. The only allowed characters in Java Identifiers are:
+a-z
+A-Z
+0-9
+$
+_ (underscore)
+
+If we are using any other character we will get compile time error.
+
+ex:
+total_number is a valid identifier
+total# is not valid identifier and we will get compile time error.
+
+2. Identifiers cannot start with digits.
+ex:
+total123 is valid
+123total is invalid.
+
+3. Java identifiers are case sensitive. Java language itself is case sensitive.
+
+class Test{
+    int number = 10;
+    int Number = 20;
+    int NUMBER = 30;
+}
+all above are valid identifiers and are different.
+
+4. There is no length limit for java identifiers but it is not recommended to take too lengthy identifiers.
+5. We cannot use reserved words as identifiers.
+ex:
+
+int x = 10 is valid
+int if = 20 is invalid
+6. All predefined java class names and interface names, we can use as identifiers.
+Ex:
+
+class Test{
+    public static void main(String[] args){
+        int String = 9;
+        System.out.println(String);
+        int Runnable = 10;
+        System.out.println(Runnable)
+    }
+}
+
+Above program is valid,op will be:
+9
+10
+
+Even though above program is valid, but it is not a good programming practice because it reduces readability and creates confusion.
+
+Q. Which of the following are valid java identifiers?
+total_number
+total#
+123total
+total123
+ca$h
+_$_$_$_$_$
+all@hands
+java2share
+Integer
+Int
+int
+
+Ans:
+total_number, total123, ca$h, _$_$_$_$_$, all@hands, java2share, Integer, Int are valid identifiers
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+===============================================================================================
+
+2. Reserved Words
+-----------------------------------------------------------------------------------
+
+In Java, some words are reserved to represent some meaning and functionality, such types of words are called reserved words.
+
+There are 53 reserved words.
+Reserved Keywords: 50
+Reserved Literal: 3
+
+Reserved Literals are: true, false, null
+
+In reserved keywords, we have 48 used keywords and unused keywords are 2
+Unused keywords - goto, const
+
+Keywords for data types: (8)
+----------------------------
+byte
+short
+int
+long
+float
+double
+boolean
+char
+
+Keywords for flow control: (11)
+-----------------------------
+if
+else
+switch
+case
+default
+while
+do
+for
+break
+continue
+return
+
+Keywords for modifiers: (11)
+-------------------------
+nothing for default
+public
+private
+protected
+static
+final
+abstract
+native
+synchronized
+strictfp
+transient
+volatile
+
+Keywords for exception handling (6):
+-----------------------------------
+try
+catch
+finally
+throw
+throws
+assert
+
+Class related keywords (6):
+-------------------------
+class
+interface
+extends
+implements
+package
+import
+
+
+Object related keywords (4):
+----------------------------
+new
+instanceof
+super
+this
+
+Return type keywords (1):
+------------------------
+void
+
+In Java, return type is mandatory. If a method wont return anything, then we have to declare that method with void return type.
+But in C language, return type is optional and default type return type is int.
+
+Unused Keywords (1):
+---------------------
+goto, const
+
+goto: Usage of goto created several problems in old languages and hence Sun banned this keyword in java
+const: Use final instead of const.
+NOTE: goto and const are unused keywords and if we are trying to use we will get compile time error.
+
+Reserved literal (3):
+----------------------
+true, false: value for boolean data types
+null: default value for object reference
+
+enum keyword
+------------
+We can use enum to define a group of named constants.
+ex:
+enum Month {
+    JAN, FEB,... DEC;
+}
+enum Beer {
+    KF, KO, RC;
+}
+
+Conclusion:
+
+1. All 53 keywords in java contains only lower case alphabet symbols.
+2. new keyword is present in Java, but delete keyword is not present. This is because deletion of objects is responsibility of GarbageCollector.
+3.
+strictfp but not strictFp
+instanceof but not instanceOf
+synchronized but not synchronize
+extends but not extend
+implements but not implement
+import but not imports
+const but not constant
+
+Q. Which of the following list contains only java reserved words?
+1. new, delete
+2. goto, constant
+3. break, continue, return, exit
+4. final, finally, finalize
+5. throw, throws, thrown
+6. notify, notifyAll
+7. implements, extends, imports
+8. sizeof, instanceof
+9. instanceOf, strictFp
+10. byte, short, Int
+11. None of the above
+
+Ans:
+None of the above.
+
+Q. Which of the following are java reserved words?
+public
+static
+void
+main
+String
+args
+
+Ans: public, static, void
+
+
+
+===============================================================================================
+
+3. Data Types
+-----------------------------------------------------------------------------------
+In java, every variable and every expression has some type. Each and every data type is clearly defined. Every assignment should be checked by compiler for type compatibilty.
+Because of above reasons, we can conclude Java language is strongly type programming language.
+
+Java is not considered as pure Object Oriented Programming Language because several OOP features are not satisfied by Java (like operator overloading, and multiple inheritance).
+Moreover, we are depending on primitive data types which are non objects.
+
+primitive data types
+------------------------
+8 primitive data types.
+Data types which talks about numbers are called Numeric data types.
+Numeric data types have 2 categories: integers and with decimal points
+Numeric data types which only talks about integers are called Integral Data types. byte, short int
+Numeric data types which talks about number with decimal values are called Floating Data types. float, double
+Data types which do not talks about numbers are called Non Numeric data types.
+Non-numeric data types are: boolean, char
+
+Numeric Data types(except boolean and char) are considered as signed data types because we can represent both positive and negative numbers.
+The first bit in numeric data type is signed bit which stores whether number is positive or negative. This signed bit is known as MSB (most significant bit) 0 means positive
+and 1 means negative, remaining bits represent values.
+
+1. byte
+-----------
+Size: 1 byte = 8 bits
+
+max value: as first bit is considered as MSB we are left with 7 bits:
+MSB 1   1   1   1   1   1   1
+    2^6 2^5 2^4 2^3 2^2 2^1 2^0
+
+Adding above: 64+32+16+8+4+2+1 = 127
+so max value is 127
+
+min value is -128. This is calculated using 2's complement with 7 bits.
+
+Range: -128 to 127
+
+positive number will be represented directly in memory whereas negative number will be represented in 2's complemented form.
+
+byte b = 128;
+Compile Time Error:
+error: incompatible types: possible lossy conversion from int to byte
+
+byte b = 12.3;
+Compile Time Error:
+error: incompatible types: possible lossy conversion from double to byte
+
+byte b = true;
+Compile Time Error:
+error: incompatible types: boolean cannot be converted to byte
+
+byte b = "duega";
+Compile Time Error:
+error: incompatible types: String cannot be converted to byte
+
+Byte is the best choice if we want to handle the data in terms of streams either from the file or from the network (File supported form or Network supported form is Byte)
+
+2. short
+----------------
+Size: 2 bytes
+Range: -2^15 to 2^15 - 1
+       -32768 to 32767
+Rarely used data type in java
+
+Short data type is best suitable for 16 bit processors like 8085 but these processors are completely outdated and hence corresponding short data type is also outdated data type.
+
+3. int
+---------
+The most commonly used data type in java is int data type.
+size: 4 bytes (32 bits)
+Range: -2^31 to 2^31 - 1
+       -2147483648 to 2147483647
+Ex:
+
+int x = 2147483648;
+Compile Time Error:
+ error: integer number too large
+
+int x = 2147483648l;
+Compile Time Error:
+error: incompatible types: possible lossy conversion from long to int
+
+int x = true;
+Compile Time Error:
+error: incompatible types: boolean cannot be converted to int
+
+4. long
+------------
+Sometimes int may not enough to hold big values, then we should go for long type.
+Ex1:
+the amount of distance travelled by light in thousand days, to hold this value int is not enough. We should go for long data type.
+long l = 126000 * 60 * 60 * 24 * 1000; #miles
+ex2:
+The number of characters present in a big file may exceed int range hence the return type of length() method is long but not int.
+
+long l = f.lenght()
+
+size: 8 bytes (64 bits)
+range: -2^63 to 2^63 - 1
+
+Note: All the above data types (byte, short, int, long) meant for representing integral values. If we want to represent floating point values then we should go for floating point data types.
+
+Floating point data types
+------------------------------
+
+   Float                                                                        |         double
+1. If we want 5 to 6 decimal places of accuracy, then we should go for float.   | if we want 15 to 16 decimal places of accuracy, then we should go for double.
+2. Float follows single precision                                               | Double follows double precision
+3. Size: 4 bytes                                                                | Size: 8 bytes
+4. Range: -3.4 e38 to 3.4 e38                                                   | Range: -1.7 e308 to 1.7 e308
+
+Boolean data types
+------------------------
+Size: Not applicable (Virtual machine dependent)
+Range: Not applicable (allowed values are true or false)
+
+ex:
+boolean b = true;    valid
+
+boolean b = 0;       invalid
+CTE
+error: incompatible types: int cannot be converted to boolean
+
+boolean b = True;
+CTE
+error: cannot find symbol
+symbol:   variable True
+location: class Test
+
+boolean b = "True";
+CTE
+error: incompatible types: String cannot be converted to boolean
+
+
+int x = 0;
+if (x){
+    System.out.println("Hello");
+}
+else{
+    System.out.println("Hi");
+}
+
+CTE
+error: incompatible types: int cannot be converted to boolean
+
+while(1){
+     System.out.println("Hi");
+}
+CTE
+error: incompatible types: int cannot be converted to boolean
+
+char data type
+-------------------
+Old languages, like C/C++ are ASCII code based and the number of allowed different characters are less than or equal to 256. To represent these 256 characters, 8 bits are enough,
+hence the size of char in old languages is 1 byte but Java is Unicode based and the number of different unicode characters are greater than 256 and less than or equal to 65536.
+To represent these many characters, 8 bits may not be enough compulsory we should go for 16 bits. Hence the size of char in java is 2 bytes.
+
+size: 2 bytes
+range: 0-65535
+
+--------------------------------------------------------------------------------------------------------------------------
+
+data type       |    size       |   range                               |   wrapper class         |       default value
+--------------------------------------------------------------------------------------------------------------------------
+byte            |   1 byte      |   -2^7 to 2^7 -1                      |   Byte                   |0
+short           |   2 bytes     |   -2^15 to 2^15 - 1                   |   Short                  |0
+int             |   4 bytes     |   -2^31 to 2^31 - 1                   |   Int                    |0
+long            |   8 bytes     |   -2^63 to 2^63 - 1                   |   Long                   |0
+float           |   4 bytes     |   -3.4 e38 to 3.4 e38                 |   Float                  |0.0
+double          |   8 bytes     |   -1.7 e308 to 1.7 e308               |   Double                 |0.0
+boolean         |   NA          |   NA(allowed values are true/false)   |   Boolean                |false
+char            |   2 bytes     |   0-65535                             |   Character              |0 (0 represent space)
+
+
+null is default value for object reference and we cannot apply for primitives, If we are trying to use for primitive, we will get CTE incompatible_types.
+Ex:
+char ch = null;
+CTE
+incompatible types: <null> cannot be converted to char
+
+===============================================================================================
+
+4. Literals
+----------------
+
+A constant value which can be assigned to the variable is called literal.
+int x = 10;
+int - data type/ keyword
+x - name of variable/ identifier
+10 - constant value/literal
+
+Integral literals
+---------------------
+For integral data types (byte, short, int, long) we can specify literal value in the following ways:
+
+1. decimal literals (base 10)
+---------------------------
+allowed digits are: 0-9
+int x = 10; 10 is decimal form
+2. octal literal (base 8) (0-7)
+-------------------------------
+Literal value should be prefixed with zero to denote it is octal literal form
+allowed digits are 0 to 7
+int x = 010
+3. Hexa decimal form (base 16)
+----------------------
+Literal value should be prefixed with 0x to denote it is octal literal form
+allowed digits are: 0-9, a-f
+int x = 0x10;
+
+We can use a-f or A-F for extra digits because java is case insensitive in this case. This is one of very few areas where java is case insensitive
+int x = 0X10 is also valid
+
+These are only valid ways to specify integral literal data types.
+
+Q. Which of these are valid?
+int x = 10;
+int x = 0786;
+int x = 0777;
+int x = 0XFace;
+int x = 0XBeef;
+int x = 0XBeer;
+
+Ans:
+All except:
+int x = 0786;
+CTE:
+error: integer number too large
+int x = 0XBeer;
+CTE:
+ error: ';' expected
+
+
+class Test{
+    public static void main(String []args){
+        int x = 10;
+        int y = 010;
+        int z = 0x10;
+        System.out.println(x+" "+y+" "+z);
+    }
+}
+
+op:
+10 8 16
+
+Every integral literal will always be of int type by default if l/L is not added in last in literal.
+Ex:
+10
+010
+0x10
+all above literals are of int type
+but if we add l to them:
+10l;
+010l;
+0x10l;
+are of long type
+if l/L is suffixed into literal they are of long type
+
+Q.Which are valid?
+int x = 10;
+long x = 10l;
+int x = 10l;
+long l = 10;
+
+Ans: All are valid except:
+int x = 10l;
+CTE
+error: incompatible types: possible lossy conversion from long to int.
+
+
+There is no direct way to specify byte and short literals explicitly but indirectly we can specify. Whenever we are assigning integral literal to the byte variable and if the value within the range of byte
+then compiler treats it automatically as byte literal, similarly short literal also.
+byte b = 127; valid
+byte b = 10; valid
+byte b = 128; error: incompatible types: possible lossy conversion from int to byte.
+
+short s = 32767; valid
+short s = 32768; error: incompatible types: possible lossy conversion from int to short.
+
+
+Floating point literals
+------------------------------
+By default, every floating point literal is of double type and hence we cant assign directly to the float variable but we can specify floating point literal as float type by sufixing with f or F.
+float f = 123.456; error: incompatible types: possible lossy conversion from double to float
+float f = 123.456f; valid
+float f = 123.456F; valid
+double d = 123.456; valid
+double d = 123.456D; valid
+
+We can specify explicitly floating point literal as double type b y suffixing with d or D, of course this convention is not required.
+double d = 123.456D; valid
+
+Which are valid?
+double d = 123.456;
+double d = 0123.456;
+double d = 0x123.456;
+
+Ans:
+double d = 0x123.456;
+CTE
+ error: malformed floating point literal
+
+Others are valid, even double d = 0123.456; because 0 here is not considered as octal not decimal.
+
+We can specify floating point literals only in decimal form and we cannot specify in octal and hexadecimal forms.
+We can assign integral literal directly to floating point variables and that integral literal can be specified either in decimal or octal or hexadecimal forms.
+
+double d = 0786;
+invalid, CTE:
+error: integer number too large
+double d = 0xFace;
+valid
+double d = 0786.0;
+valid
+double d = 0xFace.0;
+invalid, CTE
+error: malformed floating point literal
+
+We cannot assign floating point literals to integral types.
+Ex:
+double d = 10;
+valid
+int x = 10.0
+invalid, CTE
+error: incompatible types: possible lossy conversion from double to int
+
+We can specify floating point literal even in exponential form (scientific notation)
+
+double d = 1.2e3;
+sopln(d);
+valid
+1200.0
+
+float f = 1.2e3;
+invalid, CTE
+error: incompatible types: possible lossy conversion from double to float
+
+float f = 1.2e3F;
+valid
+1200.0
+
+Boolean literals
+------------------
+The only allowed values for boolean data types are true or false.
+
+boolean b = true;
+valid
+
+boolean b = 0;
+invalid, CTE
+error: incompatible types: int cannot be converted to boolean
+
+boolean b = True;
+invalid, CTE
+error: cannot find symbol
+        boolean b = True;
+                    ^
+symbol:   variable True
+location: class Test
+
+boolean b = "True";
+CTE
+incompatible types: String cannot be converted to boolean
+
+
+int x = 0;
+if (x){
+    System.out.println("Hello");
+}
+else{
+    System.out.println("Hi");
+}
+
+CTE:
+error: incompatible types: int cannot be converted to boolean
+
+while(1){
+    System.out.println("Hello");
+}
+CTE:
+error: incompatible types: int cannot be converted to boolean
+
+Char Literals
+----------------------
+We can specify char literal as single character within single quotes.
+
+char ch = 'a';
+valid
+
+char ch = a;
+error: cannot find symbol
+        char ch = a;
+                  ^
+symbol:   variable a
+location: class Test
+
+
+char ch = "a";
+error: incompatible types: String cannot be converted to char
+
+char ch = 'ab';
+CTE
+Test.java:3: error: unclosed character literal
+        char ch = 'ba';
+                  ^
+Test.java:3: error: unclosed character literal
+        char ch = 'ba';
+                     ^
+Test.java:3: error: not a statement
+        char ch = 'ba';
+                    ^
+3 errors
+
+We can specify char literal as integral literal which represents unicode value of the character and that integral literal can be specified either in decimal or octal or hexadecimal form but
+allowed range in 0-65535.
+char ch = 97;
+sopln(ch)
+valid; a
+
+char ch = 0xFace;
+sopln(ch)
+valid
+
+char ch = 0777;
+sopln(ch)
+valid
+
+char ch = 65535;
+valid
+
+char ch = 65536;
+error: incompatible types: possible lossy conversion from int to char.
+
+We can represent char literal in unicode representation which is nothing but '\uxxxx' where xxxx is 4 digit hexadecimal number
+ex:
+
+char ch = '\u0061';
+valid, a
+char ch = '\u0062';
+valid, b
+
+Every escape character is a valid char literal.
+Ex:
+char ch = '\n';
+valid
+char ch = '\t'
+valid
+
+char ch = '\m'
+CTE:
+Test.java:3: error: illegal escape character
+        char ch = '\m';
+                    ^
+Test.java:3: error: unclosed character literal
+        char ch = '\m';
+                  ^
+Test.java:3: error: unclosed character literal
+        char ch = '\m';
+                     ^
+In Java, there are 8 escape characters are present.
+
+\n - new line
+\t - horizontal-tab
+\r - carriage return
+\b - backspace (delete one character)
+\f - form feed
+\' - single quote
+\" - double quotes
+\\ - back slash
+
+Sopln("This is \' symbol");
+sopln("This is \" symbol");
+Sopln("This is \\ symbol");
+
+Which of the following are valid?
+char ch = 65536;
+char ch = 0xBeer;
+char ch = \uFace;
+char ch = '\uBeef';
+char ch = \m
+char ch = \iface;
+
+Ans:
+char ch = 65536;
+char ch = 0xBeer;
+char ch = \uFace;
+char ch = \m
+char ch = \iface;
+
+are invalid
+
+
+String literals
+--------------------
+Any sequence of characters within double quotes are string literals.
+String s = "durga";
+
+1.7 version enhancements with respect to literals
+-------------------------------------------------------
+1. Binary literals
+For integral data types, until 1.6 version, we can specify literal value in the following ways:
+1. Decimal form
+2. Octal form
+3. Hexadecimal form
+
+In 1.7 version onwards, we can specify literal value in Binary form also.
+Allowed digits are 0 and 1.
+int x = 0B1111;
+Sopln(x)
+
+OP: 15
+
+Literal value should be prefixed with 0B or 0b
+2. Usage of _ (underscore) symbol in numeric literals
+--------------------------------------------------------
+From 1.7 version onwards, we can use _ (underscore) symbol between digits of numeric literal
+double d =  123456.789
+can be written as:
+double d = 1_23_456.7_8_9;
+or
+double d = 123_456.7_8_9;
+The main advantage of this approach is readability of the code will be improved.
+
+At the time of compilation, these underscore symbols will be removed automatically, hence after compilation the above lines will become:
+double d = 1233456.789;
+
+We can use more than one underscore symbol also between two digits.
+double d = 1__2_3_4_5__6.7_8_9;
+double d = 1____2__3_4_5_6.7_8_9;
+
+
+We can use underscore symbol only between 2 digits, not anywhere else. If we are using anywhere else, we will get CTE.
+
+These are invalid usage:
+double d = _1_23_456.7_8_9;
+double d = 1_23_456_.7_8_9;
+double d = 1_23_456.7_8_9_;
+
+
+Summary:
+
+byte -> short -> int
+char -> int
+int -> long -> float -> double
+
+The above conversions are always possible.
+
+NOTE:
+8 byte long value can be assigned to 4 byte float variable because both are following different memory representations internally.
+
+float f = 10l;
+sopln(f);
+10.0
+
+
+===============================================================================================
+
+
+5. Arrays
+-----------------
+1. Introduction
+2. Array Declaration
+3. Array Creation
+4. Array Initialization
+5. Array Declaration, Creation and Initialization in one line
+6. length vs length()
+7. Anonymous Arrays
+8. Array element assignments
+9. Array variable assignments
+-------------------------------------------------
+1. Introduction
+-------------------------------------------------
+
+An array is an indexed collection of fixed number of homogenous data elements. The main advantage of array is we can represent huge number of values by using single variable
+so that readability of the code will be improved.
+But the main disadvantage of arrays is fixed in size i.e once we create an array there is no chance of increasing or decreasing the size based on our requirements, hence to use
+arrays concept compulsory we should know the size in advance which may not be possible always.
+
+2. Array Declaration
+------------------------
+One dimensional array Declaration
+-------------------------------------
+int[] x;
+int []x;
+int x[];
+
+First one is recommended because name is clearly separated from type.
+
+Conclusions
+-----------
+1. At the time of declaration we cannot specify the size otherwise we will get CTE.
+
+int[6] x;   Invalid
+int[] x;    Valid
+
+Two Dimensional Array Declaration
+-----------------------------------
+int[][] x;
+int [][]x;
+int x[][];
+int[] []x;
+int[] x[];
+int []x[];
+
+All these are valid declarations.
+
+int[] a,b;
+a-> 1D array
+b-> 1D array
+
+int[] a[],b;
+a -> 2D array
+b -> 1D array
+
+int[] a[], b[];
+a -> 2D array
+b -> 2D array
+
+int[] []a, b;
+a -> 2D array
+b -> 2D array
+
+int[] []a, b[];
+a -> 2D array
+b -> 3D array
+
+int[] []a, []b;
+Invalid, CTE
+
+If we want to specify dimension before the variable, the facility is applicable only for first variable in a declaration.If we are trying to apply for remaining variables, we will get CTE.
+int[] []a, []b;
+Invalid, CTE
+
+int[] []a,[]b,[]c;
+Invalid CTE.
+
+Three Dimensional Array Declaration
+-----------------------------------
+All are valid declarations.
+int[][][] a;
+int [][][]a;
+int a[][][];
+int[] [][]a;
+int[] a[][];
+int[] []a[];
+int[][] []a;
+int[][] a[];
+int [][]a[];
+int[] a[][];
+
+
+3. Array Creation
+------------------------
+One Dimensional Array Creation
+-----------------------------------
+Every array in Java is an object hence we can create an array using new operator.
+int[] a = new int[3];
+
+For every array type, corresponding classes are available and these classes are part of Java language and not available to the programmer level.
+
+int[] a = new int[3];
+System.out.println(a.getClass().getName());
+OP: [I
+
+Array Type          |       Corrresponding class name
+--------------------|----------------------------------
+int[]               |       [I
+int[][]             |       [[I
+double[]            |       [D
+short[]             |       [S
+byte[]              |       [B
+boolean[]           |       [Z
+
+1. At the time of array creation compulsory we should define size otherwise we will get CTE.
+int[] x = new int[];
+Invalid, CTE.
+
+int[] x = new int[6];
+Valid
+
+2. It is legal to have an array with size 0 in Java.
+int[] x = new int[0];
+Valid.
+
+3. If we are trying to specify array size with some negative value, then we will get Run Time Exception saying: NegativeArraySizeException
+int[] x = new int[-3];
+RE: Exception in thread "main" java.lang.NegativeArraySizeException
+
+4. To specify array size, the allowed data types are byte, short, char, int. If we are trying to specify any other type then we will get CTE.
+int[] x = new int[10];
+int[] x = new int['a'];
+
+byte b = 20;
+int[] x = new int[b];
+
+short s = 30;
+int[] x = new int[s];
+
+int[] x = new int[10l];
+error: incompatible types: possible lossy conversion from long to int
+5. The maximum allowed size of array is 2147483647 which is the maximum value of int data type. If we are exceeding the value we will get CTE saying integer number too large
+int[] x = new int[2147483647];
+int[] x = new int[2147483648];
+CTE: integer number too large
+
+Even in the below case we may get Run Time Exception if sufficient heap memory is not available.
+int[] x = new int[2147483647];
+Exception in thread "main" java.lang.OutOfMemoryError: Requested array size exceeds VM limit
+        at Test.main
+
+Two Dimensional Array Creation
+-----------------------------------
+In Java,Two Dimensional Array is not implemented using matrix style. Sun people followed array of arrays approach for multi dimensional array creation.
+The main advantage of this approach is memory utilization will be improved.
+
+Ex1:
+int[][] x = new int[2][];
+x[0] = new int[2];
+x[1] = new int[3];
+
+Ex2:
+     []                  []
+[] []   []            []    []
+[] [][] [][][]        [][]  [][]
+To represent above structure:
+int[][][] x = new int[2][][];
+x[0] = new int[3][];
+x[0][0] = new int[1];
+x[0][1] = new int[2];
+x[0][2] = new int[3];
+x[1] = new int[2][2];
+
+Which of the following are valid?
+int[] a = new int[];
+int[] a = new int[3];
+int[][] a = new int[][];
+int[][] a = new int[3][];
+int[][] a = new int[][4];
+int[][] a = new int[3][4];
+int[][][] a = new int[3][4][5];
+int[][][] a = new int[3][4][];
+int[][][] a = new int[3][][5];
+int[][][] a = new int[][4][5];
+
+Ans:
+int[] a = new int[3];
+int[][] a = new int[3][];
+int[][] a = new int[3][4];
+int[][][] a = new int[3][4][5];
+int[][][] a = new int[3][4][];
+are only valid.
+
+int[][][] a = new int[3][][5]; this is invalid because without defining second, you cannot define third.
+
+
+Array Initialization
+-----------------------------------
+
+Once we create an array, every array element initializes with a default value.
+
+int[] x = new int[3];
+System.out.println(x);
+System.out.println(x[0]);
+
+OP:
+[I@3e25a5
+0
+
+NOTE:
+Whenever we are trying to print any reference variable, internally toString() method will be called which is implemented by default to return the string in the following form:
+classname@hashcode_in_hexadecimalform
+
+int[][] x = new int[3][2];
+System.out.println(x);
+System.out.println(x[0]);
+System.out.println(x[0][0]);
+
+OP:
+[[I@3e25a4
+[I@3e25a2
+0
+
+
+int[][] x = new int[2][];
+System.out.println(x);
+System.out.println(x[0]);
+System.out.println(x[0][0]);
+
+OP:
+[[I@3e25a4
+null
+RE: NullPointerException
+
+Note:
+If we are trying to perform any operation on null, then we will get RE saying NullPointerException
+
+Once we create an array, every array element by default initialized with default values. If we are not satisfied with default values, then we can override these values with our customized values.
+
+int[] x = new int[3];
+x[0] = 10;
+x[1] = 20;
+x[2] = 30;
+
+int[] x = new int[3];
+x[0] = 10;
+x[1] = 20;
+x[2] = 30;
+x[3] = 40;
+RE: ArrayIndexOutOfBoundException
+
+
+int[] x = new int[3];
+x[0] = 10;
+x[1] = 20;
+x[2] = 30;
+x[-3] = 40;
+RE: ArrayIndexOutOfBoundException
+
+int[] x = new int[3];
+x[0] = 10;
+x[1] = 20;
+x[2] = 30;
+x[3.2] = 40;
+CTE: incompatible types: possible lossy conversion from double to int
+
+
+Note:
+If we are trying to access arry element with out of range exception(either positive value or negative int value) then we will get RunTimeException saying ArrayIndexOutOfBoundException.
+
+5. Array Declaration, Creation and Initialization in one line
+------------------------------------------------------------------
+
+int[] x = new int[3];
+x[0] = 10;
+x[1] = 20;
+x[2] = 30;
+
+The above can be represented in single line:
+int[] x = {10,20,30};
+
+char[] ch = {'a','e','i','o','u'}
+String[] s = {"A","AA","AAA"};
+
+We can extend this shortcut for multidimensional array also.
+[]          []
+[10][20]    [30][40][50]
+
+this can be represented as below:
+
+int[][]x = {{10,20},{30,40,50}};
+
+
+int[][][]x = {{{10,20,30},{40,50,60}},{{70,80}, {90,100,110}};
+System.out.println(x[0][1][2]);
+System.out.println(x[1][0][1]);
+System.out.println(x[2][0][0]);
+System.out.println(x[1][2][0]);
+System.out.println(x[1][1][1]);
+System.out.println(x[2][1][0]);
+
+First represent them in memory and then you can answer easily:
+
+[]                                  []
+[]               []                 []          []
+[10][20][30]    [40][50][60]        [70][80]    [90][100][110]
+
+OP:
+60
+80
+RE:ArrayIndexOutOfBoundException
+100
+RE:ArrayIndexOutOfBoundException
+
+int[] x = {10,20,30};
+If we want to use this shortcut, compulsory we should perform all activities in a single line, if we are trying to divide into multiple lines, then we will get
+CTE: Illegal start of expression
+
+int[] x;
+x = {10,20,30};
+CTE: Illegal start of expression
+
+length vs length()
+---------------------
+length is a final variable applicable for arrays. length variable represents the size of the array.
+Ex:
+int[] x = new int[6];
+Sopln(x.length())
+CTE: cannot find symbol
+Sopln(x.length)
+OP: 6
+
+String s = "pranjal"
+Sopln(s.length);
+CTE: cannot find symbol
+Sopln(s.length());
+OP: 7
+
+length() is a final method applicable for String objects. length() returns number of characters present in the string
